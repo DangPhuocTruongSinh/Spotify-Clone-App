@@ -51,26 +51,26 @@ Dự án được xây dựng dựa trên kiến trúc **Microservices** và **H
 ```mermaid
 graph TD
     subgraph "User Interface"
-        Android[Android App]
+        Android["Android App"]
     end
 
     subgraph "Core Services"
-        API[Backend API <br/> (FastAPI)]
-        PG[PostgreSQL <br/> (OLTP / Metadata)]
-        MinIO[MinIO <br/> (Object Storage)]
-        Redis[Redis <br/> (Cache)]
+        API["Backend API<br/>FastAPI"]
+        PG["PostgreSQL<br/>OLTP / Metadata"]
+        MinIO["MinIO<br/>Object Storage"]
+        Redis["Redis<br/>Cache"]
     end
 
     subgraph "Data & Analytics Pipeline"
-        Kafka(Kafka <br/> (Event Bus))
-        Consumer[Consumer Service <br/> (Python)]
-        CH[ClickHouse <br/> (OLAP / Analytics)]
-        Superset[Apache Superset <br/> (Visualization)]
+        Kafka["Kafka<br/>Event Bus"]
+        Consumer["Consumer Service<br/>Python"]
+        CH["ClickHouse<br/>OLAP / Analytics"]
+        Superset["Apache Superset<br/>Visualization"]
     end
 
     %% Connections
-    Android -- "Gửi Sự kiện (nghe, thích,...)" --> Kafka
-    Android -- "Gọi API (lấy dữ liệu)"     <--> API
+    Android -- "Send Events" --> Kafka
+    Android -- "API Calls" <--> API
 
     API --> PG
     API --> MinIO
@@ -78,8 +78,8 @@ graph TD
 
     Kafka --> Consumer
 
-    Consumer -- "Lưu trạng thái, lịch sử" --> PG
-    Consumer -- "Lưu sự kiện thô để phân tích" --> CH
+    Consumer -- "Save States" --> PG
+    Consumer -- "Save Events" --> CH
 
     CH --> Superset
 ```
